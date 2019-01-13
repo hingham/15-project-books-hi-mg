@@ -1,18 +1,17 @@
 ![CF](http://i.imgur.com/7v5ASc8.png) LAB
 =================================================
 
-## Project Name
+## Book App v2
 
-### Author: Student/Group Name
+### Author: Hannah Ingham and Becca Lee
 
 ### Links and Resources
-* [repo](http://xyz.com)
-* [travis](http://xyz.com)
-* [back-end](http://xyz.com) (when applicable)
-* [front-end](http://xyz.com) (when applicable)
+![Build Status](https://travis-ci.com/hingham/15-project-books-hi-mg.svg?branch=master)
+* [repo](https://github.com/hingham/15-project-books-hi-mg)
+* [travis](https://travis-ci.com/hingham/15-project-books-hi-mg)
+* [heroku](https://bookapp-hi-bl.herokuapp.com/)
 
 #### Documentation
-* [swagger](http://xyz.com) (API assignments only)
 * [jsdoc](http://xyz.com) (All assignments)
 
 ### Modules
@@ -27,8 +26,8 @@ Usage Notes or examples
 
 ### Setup
 #### `.env` requirements
-* `PORT` - Port Number
-* `MONGODB_URI` - URL to the running mongo instance/db
+* `PORT` - 8080
+* `MONGODB_URI` - mongodb://localhost:27017/books
 
 #### Running the app
 * `npm start`
