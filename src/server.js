@@ -8,7 +8,7 @@ const methodOverride = require('method-override');
 const errorHandler = require('./middleware/error.js');
 const notFound = require('./middleware/404.js');
 // const apiRouter = require(`./api/${process.env.dbVersion}.js`);
-const apiRouter = require('/api/routes.js');
+const apiRouter = require('./api/routes.js');
 
 
 //prepare the express app
