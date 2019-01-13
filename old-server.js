@@ -27,7 +27,7 @@ app.use(methodOverride((request, response) => {
     delete request.body._method;
     return method;
   }
-}))
+}));
 
 // Set the view engine for server-side templating
 app.set('view engine', 'ejs');
