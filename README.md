@@ -12,7 +12,7 @@
 * [heroku](https://bookapp-hi-bl.herokuapp.com/)
 
 #### Documentation
-* [jsdoc](http://xyz.com)
+* [jsdoc](http://localhost:8080/doc/)
 
 ### Modules
 - `src/models/books.js` contains the books class

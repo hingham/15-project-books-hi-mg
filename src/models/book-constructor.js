@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Book constructor for ejs rendering
+ *
+ * @param {*} info
+ */
 function Book(info) {
   let placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
   
