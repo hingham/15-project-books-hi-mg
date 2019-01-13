@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 require('mongoose-schema-jsonschema')(mongoose);
 
 const book =  mongoose.Schema({
-  name: {type: String, require:true},
+  title: {type: String, require:true},
   author: {type: String, require:true},
   isbn: {type: String},
-  image: {type: String},
+  image_url: {type: String},
   description: {type: String},
-  bookshelf: {type: String},
+  bookshelf_id: {type: String},
+  name: {type: String},
 });
 
 module.exports = mongoose.model('book', book);
