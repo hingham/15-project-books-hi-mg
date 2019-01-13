@@ -24,6 +24,11 @@ router.delete('/books/:id', deleteBook);
 
 
 // HELPER FUNCTIONS
+/**
+ * Book constructor function for rendering data to the page
+ *
+ * @param {*} info
+ */
 function Book(info) {
   let placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
 
@@ -35,6 +40,13 @@ function Book(info) {
   this.id = info.industryIdentifiers ? `${info.industryIdentifiers[0].identifier}` : '';
 }
 
+/**
+ * postgres getBooks function, gets books and provides render information for ejs files. This is done every time the homepage is loaded
+ *
+ * @param {*} request
+ * @param {*} response
+ * @returns
+ */
 function getBooks(request, response) {
   let SQL = 'SELECT * FROM books;';
 
@@ -49,6 +61,12 @@ function getBooks(request, response) {
     .catch(err => handleError(err, response));
 }
 
+/**
+ * createSearch function, makes a post to the google books API to get search results
+ *
+ * @param {*} request
+ * @param {*} response
+ */
 function createSearch(request, response) {
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
 
@@ -61,10 +79,22 @@ function createSearch(request, response) {
     .catch(err => handleError(err, response));
 }
 
+/**
+ * newSearch function, does a get to return search results and render them to the results page
+ *
+ * @param {*} request
+ * @param {*} response
+ */
 function newSearch(request, response) {
   response.render('pages/searches/new');
 }
 
+/**
+ * getBook function, does a get to view the detail of one particular book. Can be done from the search page upon saving a book, or from the homepage upon viewing detail
+ *
+ * @param {*} request
+ * @param {*} response
+ */
 function getBook(request, response) {
   getBookshelves()
     .then(shelves => {
@@ -77,6 +107,11 @@ function getBook(request, response) {
     });
 }
 
+/**
+ * getBookshelves does a get to view all bookshelves
+ *
+ * @returns
+ */
 function getBookshelves() {
   // let SQL = 'SELECT DISTINCT bookshelf FROM books ORDER BY bookshelf;';
   let SQL = 'SELECT * FROM bookshelves ORDER BY name;';
@@ -84,6 +119,12 @@ function getBookshelves() {
   return client.query(SQL);
 }
 
+/**
+ * createShelf does a post to create a new bookshelf
+ *
+ * @param {*} shelf
+ * @returns
+ */
 function createShelf(shelf) {
   let normalizedShelf = shelf.toLowerCase();
   let SQL1 = `SELECT id from bookshelves where name=$1;`;
@@ -105,6 +146,12 @@ function createShelf(shelf) {
     });
 }
 
+/**
+ * createBook function, does a post to add a book to the db, then redirects to the detail page
+ *
+ * @param {*} request
+ * @param {*} response
+ */
 function createBook(request, response) {
   createShelf(request.body.bookshelf)
     .then(id => {
@@ -119,6 +166,12 @@ function createBook(request, response) {
 
 }
 
+/**
+ * updateBook does a put to update book info
+ *
+ * @param {*} request
+ * @param {*} response
+ */
 function updateBook(request, response) {
   let {title, author, isbn, image_url, description, bookshelf_id} = request.body;
   // let SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7;`;
@@ -130,6 +183,13 @@ function updateBook(request, response) {
     .catch(err => handleError(err, response));
 }
 
+/**
+ * deleteBook function, does a delete on a specific id
+ *
+ * @param {*} request
+ * @param {*} response
+ * @returns
+ */
 function deleteBook(request, response) {
   let SQL = 'DELETE FROM books WHERE id=$1;';
   let values = [request.params.id];
@@ -139,6 +199,12 @@ function deleteBook(request, response) {
     .catch(err => handleError(err, response));
 }
 
+/**
+ * error handling function
+ *
+ * @param {*} error
+ * @param {*} response
+ */
 function handleError(error, response) {
   response.render('pages/error', {error: error});
 }

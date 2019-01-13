@@ -27,7 +27,13 @@ router.delete('/books/:id', deleteBook);
 router.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
 
-//not that I have left out bookshelf functions
+/**
+ * mongo getBooks function, gets books and provides render information for ejs files. This is done every time the homepage is loaded
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 function getBooks(req, res, next) {
 
   console.log('in get books');
@@ -47,10 +53,16 @@ function getBooks(req, res, next) {
     .catch(next);
 }
 
+/**
+ * createSearch function, makes a post to the google books API to get search results
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 function createSearch(req, res, next) {
   //doesn't need to get anything from database
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
-  // let url = 'https://www.googleapis.com/books/v1/volumes?q=title+intitle:seattle';
 
 
   ////for testing
@@ -73,10 +85,24 @@ function createSearch(req, res, next) {
 }
 
 
+/**
+ * newSearch function, does a get to return search results and render them to the results page
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 function newSearch(req, res, next) {
   res.render('pages/searches/new');
 }
 
+/**
+ * getBook function, does a get to view the detail of one particular book. Can be done from the search page upon saving a book, or from the homepage upon viewing detail
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 function getBook(req, res, next) {
   book.get(req.params.id)
     .then(result => {
@@ -94,6 +120,13 @@ function getBook(req, res, next) {
 
 
 
+/**
+ * createBook function, does a post to add a book to the db, then redirects to the detail page
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 function createBook(req, res, next) {
   // createShelf(req.body.bookshelf);
   // console.log('in post', req.params);
@@ -147,6 +180,13 @@ function createBook(req, res, next) {
 
 // }
 
+/**
+ * deleteBook function, does a delete on a specific id
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 function deleteBook(req, res, next) {
   book.delete(req.params.id)
     .then(result => {
@@ -157,6 +197,11 @@ function deleteBook(req, res, next) {
 }
 
 
+/**
+ * Book constructor function for rendering data to the page
+ *
+ * @param {*} info
+ */
 function Book(info) {
   let placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
 
