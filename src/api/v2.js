@@ -29,6 +29,7 @@ router.get('*', (request, response) => response.status(404).send('This route doe
 
 //not that I have left out bookshelf functions
 function getBooks(req, res, next) {
+
   console.log('in get books');
   book.get()
     .then(results => {
@@ -79,14 +80,13 @@ function newSearch(req, res, next) {
 function getBook(req, res, next) {
   book.get(req.params.id)
     .then(result => {
-      const output = {
-        count: result.length,
-        results: result,
-      };
-      console.log('get book log', output);
-      res.render('pages/books/show', { book: output.results[0] });
+      let bookshelf = [
+        {bookid: req.params.id,
+          name: 'cities'}];
+      
+      console.log('get book log', result[0]);
+      res.render('pages/books/show', { book: result[0], bookshelves: bookshelf });
       // bookshelves: shelves.rows
-      // res.status(200).json(result[0]);
     })
     .catch(next);
   //gets and returns one book from the shelf
@@ -95,8 +95,10 @@ function getBook(req, res, next) {
 
 
 function createBook(req, res, next) {
-  createShelf(req.body.bookshelf);
+  // createShelf(req.body.bookshelf);
   // console.log('in post', req.params);
+  req.book = require('../models/books.js');
+
   book.post(req.body)
     .then(result => {
       console.log('in result', result);
@@ -104,40 +106,42 @@ function createBook(req, res, next) {
         count: result.length,
         results: result,
       };
+
       res.redirect(`/books/${output.results.id}`);
     })
     // .then(result => res.redirect(`/books/${result.rows[0].id}`))
     .catch(next);
 }
 
-function getBookshelves() {
-  // let SQL = 'SELECT DISTINCT bookshelf FROM books ORDER BY bookshelf;';
-  let SQL = 'SELECT * FROM bookshelves ORDER BY name;';
+// function getBookshelves() {
+//   // let SQL = 'SELECT DISTINCT bookshelf FROM books ORDER BY bookshelf;';
+//   let SQL = 'SELECT * FROM bookshelves ORDER BY name;';
 
-  // return client.query(SQL);
-}
+//   // return client.query(SQL);
+// }
 
-function createShelf(shelf) {
-  let normalizedShelf = shelf.toLowerCase();
-  // let SQL1 = `SELECT id from bookshelves where name=$1;`;
-  bookShelf.post(shelf);
-  // let values1 = [normalizedShelf];
+// function createShelf(shelf) {
+//   let normalizedShelf = shelf.toLowerCase();
+//   // let SQL1 = `SELECT id from bookshelves where name=$1;`;
 
-  // return client.query(SQL1, values1)
-  //   .then(results => {
-  //     if(results.rowCount) {
-  //       return results.rows[0].id;
-  //     } else {
-  //       let INSERT = `INSERT INTO bookshelves(name) VALUES($1) RETURNING id;`;
-  //       let insertValues = [shelf];
 
-  //       return client.query(INSERT, insertValues)
-  //         .then(results => {
-  //           return results.rows[0].id;
-  //         })
-  //     }
-  //   })
-}
+//   let values1 = [normalizedShelf];
+
+//   return client.query(SQL1, values1)
+//     .then(results => {
+//       if(results.rowCount) {
+//         return results.rows[0].id;
+//       } else {
+//         let INSERT = `INSERT INTO bookshelves(name) VALUES($1) RETURNING id;`;
+//         let insertValues = [shelf];
+
+//         return client.query(INSERT, insertValues)
+//           .then(results => {
+//             return results.rows[0].id;
+//           })
+//       }
+//     })
+// }
 
 // function updateBook(req, res, next){
 
@@ -146,7 +150,7 @@ function createShelf(shelf) {
 function deleteBook(req, res, next) {
   book.delete(req.params.id)
     .then(result => {
-      res.status(200).json(result);
+      // res.status(200).json(result);
     })
     .then(res.redirect('/'))
     .catch(next);

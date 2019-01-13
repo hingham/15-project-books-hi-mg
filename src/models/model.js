@@ -11,8 +11,6 @@ class DataModel {
   }
       
   post(record) {
-    // record._id = uuid();
-    console.log('in data model', record);
     let newRecord = new this.schema(record);
     return newRecord.save();
   }
