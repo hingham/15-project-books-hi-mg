@@ -42,6 +42,8 @@
   
 #### Tests
 * How do you run tests?
+Tests are run with jest and travis. Supergoose is used to mimick server-like functionality.
 * What assertions were made?
+- `models.test.js` tests all routes (GET, POST, PUT, and DELETE) for correct functionality 
 * What assertions need to be / should be made?
-
+Additional testing could be done to ensure that error messages are working as expected. 
