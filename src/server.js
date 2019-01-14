@@ -48,8 +48,8 @@ module.exports = {
   server: app,
   /**
    * starts server or console logs that server is already running
-   *
    * @param {*} port
+   * @module Server
    */
   start: (port)=>{
     if(! isRunning){

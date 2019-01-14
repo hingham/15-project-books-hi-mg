@@ -26,8 +26,8 @@ router.delete('/books/:id', deleteBook);
 // HELPER FUNCTIONS
 /**
  * Book constructor function for rendering data to the page
- *
  * @param {*} info
+ * @module routes-sql
  */
 function Book(info) {
   let placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
@@ -42,7 +42,6 @@ function Book(info) {
 
 /**
  * postgres getBooks function, gets books and provides render information for ejs files. This is done every time the homepage is loaded
- *
  * @param {*} request
  * @param {*} response
  * @returns
@@ -63,7 +62,6 @@ function getBooks(request, response) {
 
 /**
  * createSearch function, makes a post to the google books API to get search results
- *
  * @param {*} request
  * @param {*} response
  */
@@ -81,7 +79,6 @@ function createSearch(request, response) {
 
 /**
  * newSearch function, does a get to return search results and render them to the results page
- *
  * @param {*} request
  * @param {*} response
  */
@@ -91,7 +88,6 @@ function newSearch(request, response) {
 
 /**
  * getBook function, does a get to view the detail of one particular book. Can be done from the search page upon saving a book, or from the homepage upon viewing detail
- *
  * @param {*} request
  * @param {*} response
  */
@@ -109,7 +105,6 @@ function getBook(request, response) {
 
 /**
  * getBookshelves does a get to view all bookshelves
- *
  * @returns
  */
 function getBookshelves() {
@@ -121,7 +116,6 @@ function getBookshelves() {
 
 /**
  * createShelf does a post to create a new bookshelf
- *
  * @param {*} shelf
  * @returns
  */
@@ -148,7 +142,6 @@ function createShelf(shelf) {
 
 /**
  * createBook function, does a post to add a book to the db, then redirects to the detail page
- *
  * @param {*} request
  * @param {*} response
  */
@@ -168,7 +161,6 @@ function createBook(request, response) {
 
 /**
  * updateBook does a put to update book info
- *
  * @param {*} request
  * @param {*} response
  */
@@ -185,7 +177,6 @@ function updateBook(request, response) {
 
 /**
  * deleteBook function, does a delete on a specific id
- *
  * @param {*} request
  * @param {*} response
  * @returns
@@ -201,7 +192,6 @@ function deleteBook(request, response) {
 
 /**
  * error handling function
- *
  * @param {*} error
  * @param {*} response
  */

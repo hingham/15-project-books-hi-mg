@@ -47,6 +47,11 @@ let isRunning = false;
 
 module.exports = {
   server: app,
+  /**
+   *starts the port
+   * @param {*} port
+   * @module index
+   */
   start: (port)=>{
     if(! isRunning){
       app.listen(port, ()=>{

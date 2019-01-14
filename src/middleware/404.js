@@ -2,10 +2,10 @@
 
 /**
  * 404 handler middleware
- *
  * @param {*} req
  * @param {*} res
  * @param {*} next
+ * @module 404
  */
 module.exports = (req, res, next)=>{
   let error = {error: '404, Route not found'};
