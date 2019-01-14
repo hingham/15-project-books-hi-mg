@@ -4,9 +4,9 @@ const DataModel = require('./model.js');
 
 /**
  * Creates bookshelf class
- *
  * @class Bookshelf
  * @extends {DataModel}
+ * @module bookshelves
  */
 class Bookshelf extends DataModel{}
 

@@ -5,6 +5,7 @@ class DataModel {
    *Creates an instance of DataModel.
    * @param {*} schema
    * @memberof DataModel
+   * @module models
    */
   constructor(schema){
     this.schema = schema; 
@@ -12,7 +13,6 @@ class DataModel {
 
   /**
    * get model
-   *
    * @param {*} _id
    * @returns
    * @memberof DataModel
@@ -24,7 +24,6 @@ class DataModel {
       
   /**
    * post model
-   *
    * @param {*} record
    * @returns
    * @memberof DataModel
@@ -36,7 +35,6 @@ class DataModel {
     
   /**
    * put model
-   *
    * @param {*} _id
    * @param {*} record
    * @returns
@@ -48,7 +46,6 @@ class DataModel {
     
   /**
    * delete model
-   *
    * @param {*} _id
    * @returns
    * @memberof DataModel

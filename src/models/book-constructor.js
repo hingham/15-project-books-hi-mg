@@ -2,8 +2,8 @@
 
 /**
  * Book constructor for ejs rendering
- *
  * @param {*} info
+ * @module book-constructor
  */
 function Book(info) {
   let placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';

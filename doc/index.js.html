@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: server.js</title>
+    <title>JSDoc: Source: index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: server.js</h1>
+    <h1 class="page-title">Source: index.js</h1>
 
     
 
@@ -35,9 +35,11 @@ const methodOverride = require('method-override');
 
 const errorHandler = require('./middleware/error.js');
 const notFound = require('./middleware/404.js');
-// const apiRouter = require(`./api/${process.env.dbVersion}.js`);
-const apiRouter = require('./api/routes.js');
 
+// const apiRouter = require('./api/v2.js'); 
+///process.env.mongo-file
+//process.env.sql-file
+const apiRouter = require('./api/sql.js');
 
 //prepare the express app
 const app = express();
@@ -60,8 +62,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-//Static routes
-app.use('/doc', express.static('doc'));
+
 
 //Routes
 app.use(apiRouter);
@@ -75,9 +76,9 @@ let isRunning = false;
 module.exports = {
   server: app,
   /**
-   * starts server or console logs that server is already running
+   *starts the port
    * @param {*} port
-   * @module Server
+   * @module index
    */
   start: (port)=>{
     if(! isRunning){
