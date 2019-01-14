@@ -18,6 +18,7 @@
     "express": "^4.16.2",
     "jest": "^23.6.0",
     "method-override": "^3.0.0",
+    "mongodb-memory-server": "^2.9.3",
     "mongoose": "^5.4.3",
     "mongoose-schema-jsonschema": "^1.2.1",
     "morgan": "^1.9.1",
