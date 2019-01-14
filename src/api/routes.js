@@ -5,14 +5,15 @@ const express = require('express');
 // const modelFinder = require('../models/model-finder.js');
 const router = express.Router();
 const book = require('../models/books.js');
-const bookShelf = require('../models/bookshelves.js');
+const bookshelf = require('../models/bookshelves.js');
 const bookConstructor = require('../models/book-constructor.js');
 const superagent = require('superagent');
-// const swaggerUI = require('swagger-ui-express');
-// router.param('model', modelFinder);
+const modelFinder = require('../models/model-finder.js');
 const app = express();
 
 app.set('view engine', 'ejs');
+
+router.param('', modelFinder);
 
 
 // API Routesr
@@ -21,7 +22,7 @@ router.post('/searches', createSearch);
 router.get('/searches/new', newSearch);
 router.get('/books/:id', getBook);
 router.post('/books', createBook);
-// router.put('/books/:id', updateBook);
+router.put('/books/:id', updateBook);
 router.delete('/books/:id', deleteBook);
 
 router.get('*', (request, response) => response.status(404).send('This route does not exist'));
@@ -36,7 +37,6 @@ router.get('*', (request, response) => response.status(404).send('This route doe
  */
 function getBooks(req, res, next) {
 
-  console.log('in get books');
   book.get()
     .then(results => {
       const output = {
@@ -67,7 +67,6 @@ function createSearch(req, res, next) {
 
   ////for testing
 
-  console.log('in new search', req.body.search);
 
   if (req.body.search[1] === 'title') { url += `+intitle:${req.body.search[0]}`; }
   if (req.body.search[1] === 'author') { url += `+inauthor:${req.body.search[0]}`; }
@@ -78,7 +77,6 @@ function createSearch(req, res, next) {
       return bookArr;
     })
     .then(allBooks => {
-      // console.log(allBooks);
       res.render('pages/searches/show', { results: allBooks });
     })
     .catch(next);
@@ -110,12 +108,9 @@ function getBook(req, res, next) {
         {bookid: req.params.id,
           name: 'cities'}];
       
-      console.log('get book log', result[0]);
       res.render('pages/books/show', { book: result[0], bookshelves: bookshelf });
-      // bookshelves: shelves.rows
     })
     .catch(next);
-  //gets and returns one book from the shelf
 }
 
 
@@ -128,9 +123,8 @@ function getBook(req, res, next) {
  * @param {*} next
  */
 function createBook(req, res, next) {
-  // createShelf(req.body.bookshelf);
-  // console.log('in post', req.params);
-  req.book = require('../models/books.js');
+  createShelf(req.body.bookshelf);
+  console.log('console logging params', req.params) ;
 
   book.post(req.body)
     .then(result => {
@@ -142,43 +136,47 @@ function createBook(req, res, next) {
 
       res.redirect(`/books/${output.results.id}`);
     })
-    // .then(result => res.redirect(`/books/${result.rows[0].id}`))
     .catch(next);
 }
 
-// function getBookshelves() {
-//   // let SQL = 'SELECT DISTINCT bookshelf FROM books ORDER BY bookshelf;';
-//   let SQL = 'SELECT * FROM bookshelves ORDER BY name;';
+function getBookshelves() {
+  bookshelf.get()
+    .then(results=>{
+      return results;
+    });
+}
 
-//   // return client.query(SQL);
-// }
+function createShelf(shelf) {
+  let normalizedShelf = shelf.toLowerCase();
+  bookshelf.get()
+    .then(results=>{
+      if(results.length ===0){
+        bookshelf.post(shelf);
+        bookshelf.get()
+          .then(results=>{
+            console.log('added to shelf', results[0]._id);
 
-// function createShelf(shelf) {
-//   let normalizedShelf = shelf.toLowerCase();
-//   // let SQL1 = `SELECT id from bookshelves where name=$1;`;
+            return results[0]._id;
+          });
+      }
+      else{
+        console.log('in shelf', results[0]._id);
+        return results[0]._id;
+      }
+    });
+}
 
-
-//   let values1 = [normalizedShelf];
-
-//   return client.query(SQL1, values1)
-//     .then(results => {
-//       if(results.rowCount) {
-//         return results.rows[0].id;
-//       } else {
-//         let INSERT = `INSERT INTO bookshelves(name) VALUES($1) RETURNING id;`;
-//         let insertValues = [shelf];
-
-//         return client.query(INSERT, insertValues)
-//           .then(results => {
-//             return results.rows[0].id;
-//           })
-//       }
-//     })
-// }
-
-// function updateBook(req, res, next){
-
-// }
+/**
+ * updateBook does a put to update book info
+ *
+ * @param {*} request
+ * @param {*} response
+ */
+function updateBook(req, res, next) {
+  book.put(req.params.id, req.body)
+    .then(res.redirect(`/books/${req.params.id}`))
+    .catch(next);
+}
 
 /**
  * deleteBook function, does a delete on a specific id
@@ -190,7 +188,6 @@ function createBook(req, res, next) {
 function deleteBook(req, res, next) {
   book.delete(req.params.id)
     .then(result => {
-      // res.status(200).json(result);
     })
     .then(res.redirect('/'))
     .catch(next);
