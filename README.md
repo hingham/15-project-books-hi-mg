@@ -9,6 +9,7 @@
 ![Build Status](https://travis-ci.com/hingham/15-project-books-hi-mg.svg?branch=master)
 * [repo](https://github.com/hingham/15-project-books-hi-mg)
 * [travis](https://travis-ci.com/hingham/15-project-books-hi-mg)
+* [![Build Status](https://www.travis-ci.com/hingham/15-project-books-hi-mg.svg?branch=master)](https://www.travis-ci.com/hingham/15-project-books-hi-mg)
 * [heroku](https://bookapp-hi-bl.herokuapp.com/)
 
 #### Documentation
